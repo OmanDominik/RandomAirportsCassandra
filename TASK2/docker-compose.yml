@@ -1,0 +1,8 @@
+version: '3'
+services:
+  handling-data:
+    build: .
+    ports:
+      - "9090:9090"
+    command:
+      --generating.url="http://localhost:8080/"

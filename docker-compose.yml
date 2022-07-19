@@ -1,0 +1,12 @@
+version: '3'
+services: 
+  generating-service:
+    build: ./TASK1
+    ports:
+      - "8080:8080"
+  handling-service:
+    build: ./TASK2
+    ports:
+      - "9090:9090"
+    command:
+      --generating.url="http://generating-server:8080/" 

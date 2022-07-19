@@ -1,0 +1,8 @@
+server:
+  address: 0.0.0.0
+  port: 9090
+springdoc:
+  api-docs.path: /api-documentation
+  remove-broken-reference-definitions: false
+generating:
+  url: http://localhost:8080/

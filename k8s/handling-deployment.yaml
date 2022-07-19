@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: handling-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      component: handler
+  template:
+    metadata:
+      labels:
+        component: handler
+    spec: 
+      containers:
+        - name: handling
+          image: dominikoman16/task2
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 9090 
+          args: ["--generating.url=http://generating-cluster-ip-service:8080/"]

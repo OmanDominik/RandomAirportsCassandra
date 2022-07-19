@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: generating-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      component: generator
+  template:
+    metadata:
+      labels:
+        component: generator
+    spec: 
+      containers:
+        - name: generating
+          image: dominikoman16/task1
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          env:
+            - name: MONGO_URL
+              value: http://mongo-cluster-ip-service:27017
