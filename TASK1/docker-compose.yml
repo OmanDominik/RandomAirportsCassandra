@@ -18,5 +18,4 @@ services:
     container_name: cassandra
     ports:
       - "9042:9042"
-
-
+#  CREATE KEYSPACE airports with replication={'class':'NetworkTopologyStrategy', 'replication_factor':3};

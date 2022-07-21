@@ -2,32 +2,30 @@ package com.omanski.recruitment.service;
 
 import com.omanski.recruitment.model.Airport;
 import com.omanski.recruitment.model.GeoPosition;
-import com.omanski.recruitment.repository.AirportsRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 
 @ExtendWith(MockitoExtension.class)
-@SpringBootTest
+@MockitoSettings(strictness = Strictness.LENIENT)
 class DataServiceTest {
 
-    @MockBean
-    AirportsRepository airportsRepository;
-
-    @MockBean
-    AirportService airportService = new AirportService(airportsRepository);
+    @Mock
+    AirportService airportService;
 
     @InjectMocks
-    DataService dataService = new DataService(airportService);
+    DataService dataService;
 
 
     @Test
@@ -39,16 +37,14 @@ class DataServiceTest {
                 new GeoPosition(-11.0f, -71.2f),
                 468, false, "UX", false, 2614);
 
+        Mockito.when(airportService.save(any(Airport.class)))
+                .thenReturn(sampleAirport);
 
         try (MockedStatic<Airport> mockedStatic = Mockito.mockStatic(Airport.class)) {
 
             mockedStatic
                     .when(Airport::getRandomInstance)
                     .thenReturn(sampleAirport);
-            Mockito
-                    .when(airportService.save(sampleAirport))
-                    .thenReturn(sampleAirport);
-
 
             //when
             List<Airport> generatedList = dataService.generateJsons(sizeOfListToGenerate);

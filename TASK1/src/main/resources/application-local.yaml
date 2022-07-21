@@ -11,7 +11,3 @@ spring:
       keyspace-name: airports
       contact-points: 127.0.0.1
       port: 9042
-
-#  CREATE KEYSPACE airports with replication={'class':'SimpleStrategy', 'replication_factor':1};
-#
-#  use airports;

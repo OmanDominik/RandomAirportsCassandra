@@ -5,14 +5,12 @@ import com.omanski.recruitment.model.GeoPosition;
 import com.omanski.recruitment.service.DataService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
@@ -27,7 +25,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(DataController.class)
 @ExtendWith(MockitoExtension.class)
-@ContextConfiguration(classes = DataController.class)
 class DataControllerTest {
 
     @Autowired
@@ -35,9 +32,6 @@ class DataControllerTest {
 
     @MockBean
     private DataService dataService;
-
-    @InjectMocks
-    private DataController dataController = new DataController(dataService);
 
     @Test
     void shouldReturnGeneratedList() throws Exception {
@@ -68,8 +62,7 @@ class DataControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0]._type", equalTo("uTUclIFUdn")))
-                .andExpect(jsonPath("$[*]._id", equalTo(List.of(4563496, 47254818, 12636970))))
-                .andReturn();
+                .andExpect(jsonPath("$[*]._id", equalTo(List.of(4563496, 47254818, 12636970))));
 
 
         //then
