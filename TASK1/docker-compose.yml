@@ -1,15 +1,22 @@
 version: '3'
 services:
   generating-data:
-    image: dominikoman16/task1
+    build:
+      context: .
     container_name: task1
     restart: always
     ports:
       - "8080:8080"
     environment:
-      - CASSANDRA_KEYSPACE=airports
       - CASSANDRA_CONTACT=cassandra
-      - CASSANDRA_PORT=9042
-      - CASSANDRA_SCHEMA_ACTION=create_if_not_exists
+    links:
+      - cassandra
+    depends_on:
+      - cassandra
+  cassandra:
+    image: cassandra
+    container_name: cassandra
+    ports:
+      - "9042:9042"
 
 

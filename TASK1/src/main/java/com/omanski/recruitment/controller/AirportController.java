@@ -1,7 +1,6 @@
 package com.omanski.recruitment.controller;
 
 import com.omanski.recruitment.model.Airport;
-import com.omanski.recruitment.repository.AirportsRepository;
 import com.omanski.recruitment.service.AirportService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -25,10 +24,6 @@ public class AirportController {
     final
     AirportService airportService;
 
-    final
-    AirportsRepository airportsRepository;
-
-
     @Operation(
             summary = "All airports getter",
             description = "Returns all airports in database.",
@@ -45,7 +40,7 @@ public class AirportController {
     )
     @GetMapping("/airports")
     public List<Airport> getAirports(){
-        return airportsRepository.findAll();
+        return airportService.getAirports();
     }
 
     @Operation(

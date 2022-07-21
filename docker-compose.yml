@@ -1,12 +1,31 @@
 version: '3'
 services: 
   generating-service:
-    build: ./TASK1
+    build:
+      context: ./TASK1
     ports:
       - "8080:8080"
+    environment:
+      - CASSANDRA_CONTACT=cassandra
+    restart: always
+    depends_on:
+      - cassandra
+    links:
+      - cassandra
   handling-service:
-    build: ./TASK2
+    build:
+      context: ./TASK2
     ports:
       - "9090:9090"
     command:
-      --generating.url="http://generating-server:8080/" 
+      --generating.url="http://localhost:8080/"
+    depends_on:
+      - generating-service
+    links:
+      - generating-service
+  cassandra:
+#create keyspace!!!
+    image: cassandra
+    container_name: cassandra
+    ports:
+      - "9042:9042"

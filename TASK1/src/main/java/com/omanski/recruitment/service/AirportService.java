@@ -5,6 +5,8 @@ import com.omanski.recruitment.repository.AirportsRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @AllArgsConstructor
 @Service
 public class AirportService {
@@ -17,5 +19,9 @@ public class AirportService {
         }
         else
             return null;
+    }
+
+    public List<Airport> getAirports() {
+        return airportsRepository.findAll();
     }
 }
