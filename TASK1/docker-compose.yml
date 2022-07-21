@@ -1,22 +1,15 @@
 version: '3'
 services:
-  mongodb:
-    image: mongo
-    container_name: mongodb
-    ports:
-      - "27017:27017"
-    volumes:
-      - data:/data
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=user
-      - MONGO_INITDB_ROOT_PASSWORD=pass
   generating-data:
-    build: .
+    image: dominikoman16/task1
+    container_name: task1
     restart: always
     ports:
       - "8080:8080"
-    links:
-      - mongodb:mongodb
-volumes:
-  data: {}
+    environment:
+      - CASSANDRA_KEYSPACE=airports
+      - CASSANDRA_CONTACT=cassandra
+      - CASSANDRA_PORT=9042
+      - CASSANDRA_SCHEMA_ACTION=create_if_not_exists
+
 

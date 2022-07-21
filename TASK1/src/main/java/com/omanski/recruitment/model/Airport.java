@@ -3,19 +3,22 @@ package com.omanski.recruitment.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.cassandra.core.mapping.Column;
+import org.springframework.data.cassandra.core.mapping.PrimaryKey;
+import org.springframework.data.cassandra.core.mapping.Table;
 
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.*;
 
 @Data
+@Builder
 @AllArgsConstructor
 @ToString
-@Document
+@Table("airports")
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Airport {
+public class Airport implements Serializable{
 
     public static HashMap<String, Field> fieldsMap;
     public static HashMap<String, Field> geoFieldsMap;
@@ -41,9 +44,9 @@ public class Airport {
 
     }
 
-
+    @Column("primary_type")
     private String _type;
-    @Id
+    @PrimaryKey(value = "id")
     private int _id;
     private int key;
     private String name;

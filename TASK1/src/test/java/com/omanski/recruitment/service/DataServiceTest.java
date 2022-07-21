@@ -1,28 +1,13 @@
 package com.omanski.recruitment.service;
 
-import com.omanski.recruitment.model.Airport;
-import com.omanski.recruitment.model.GeoPosition;
-import com.omanski.recruitment.repository.AirportsRepository;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockedStatic;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.mock.mockito.MockBeans;
-
-import java.util.List;
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @ExtendWith(MockitoExtension.class)
 @SpringBootTest
 class DataServiceTest {
-
+//
 //    @MockBean
 //    AirportsRepository airportsRepository;
 //
@@ -32,7 +17,7 @@ class DataServiceTest {
 //    @InjectMocks
 //    DataService dataService = new DataService(airportService);
 //
-//
+
 //    @Test
 //    void generateJsons() {
 //        //given

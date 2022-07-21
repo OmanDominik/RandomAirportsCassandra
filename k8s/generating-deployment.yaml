@@ -1,3 +1,5 @@
+#mongo
+#helm install cassandra --set dbUser.password=pass,dbUser.user=cassandra,persistence.size=1Gi,replicaCount=3 bitnami/cassandra
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -19,5 +21,17 @@ spec:
           ports:
             - containerPort: 8080
           env:
-            - name: MONGO_URL
-              value: http://mongo-cluster-ip-service:27017
+            - name: CASSANDRA_KEYSPACE
+              value: "airports"
+            - name: CASSANDRA_CONTACT
+              value: "cassandra"
+            - name: CASSANDRA_PORT
+              value: "9042"
+            - name: CASSANDRA_SCHEMA_ACTION
+              value: "create_if_not_exists"
+            - name: CASSANDRA_USER
+              value: "cassandra"
+            - name: CASSANDRA_PASSWORD
+              value: "pass"
+            - name: CASSANDRA_DC
+              value: "DC1"

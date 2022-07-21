@@ -7,10 +7,11 @@ springdoc:
   remove-broken-reference-definitions: false
 spring:
   data:
-    mongodb:
-      host: localhost
-      port: 27017
-      database: airportsDB
-      username: user
-      password: pass
-      authentication-database: admin
+    cassandra:
+      keyspace-name: airports
+      contact-points: 127.0.0.1
+      port: 9042
+
+#  CREATE KEYSPACE airports with replication={'class':'SimpleStrategy', 'replication_factor':1};
+#
+#  use airports;
