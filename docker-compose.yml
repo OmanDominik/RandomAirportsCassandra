@@ -22,7 +22,7 @@ services:
     links:
       - generating-service
   cassandra:
-#create keyspace!!!
+#create keyspace
 #CREATE KEYSPACE airports with replication={'class':'NetworkTopologyStrategy', 'replication_factor':3};
     image: cassandra
     container_name: cassandra
