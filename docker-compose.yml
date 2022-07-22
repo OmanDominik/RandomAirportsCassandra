@@ -1,8 +1,7 @@
 version: '3'
 services: 
   generating-service:
-    build:
-      context: ./TASK1
+    image: dominikoman16/task1
     ports:
       - "8080:8080"
     environment:
@@ -13,12 +12,11 @@ services:
     links:
       - cassandra
   handling-service:
-    build:
-      context: ./TASK2
+    image: dominikoman16/task2
     ports:
       - "9090:9090"
     command:
-      --generating.url="http://localhost:8080/"
+      --generating.url="http://generating-service:8080/"
     depends_on:
       - generating-service
     links:
