@@ -14,7 +14,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.Arrays;
 import java.util.List;
@@ -38,6 +37,14 @@ class AirportControllerTest {
 
     @MockBean
     private AirportService airportService;
+
+    private static String asJsonString(final Object obj) {
+        try {
+            return new ObjectMapper().writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @Test
     void shouldReturnAllAirports() throws Exception {
@@ -63,7 +70,7 @@ class AirportControllerTest {
 
         //when
         mockMvc.perform(get("/airports")
-                .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(jsonPath("$[*]._id", equalTo(List.of(4563496, 47254818, 12636970))))
@@ -91,11 +98,10 @@ class AirportControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(airport))
                         .accept(MediaType.APPLICATION_JSON))
-                        .andExpect(status().isOk())
-                        .andDo(print())
-                        .andExpect(MockMvcResultMatchers.jsonPath("$._id", equalTo(4563496)));
-
-
+                .andExpect(status().isCreated())
+                .andDo(print())
+                .andExpect(jsonPath("$._id", equalTo(4563496)));
+        
         //then
         verify(airportService).save(airport);
     }
@@ -110,29 +116,20 @@ class AirportControllerTest {
 
         Mockito
                 .when(airportService.save(airport))
-                .thenReturn(null);
+                .thenThrow(new IllegalArgumentException());
 
         //when
         MvcResult result = mockMvc.perform(post("/airports")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(airport))
                         .accept(MediaType.APPLICATION_JSON))
-                        .andExpect(status().isOk())
-                        .andDo(print())
-                        .andReturn();
+                .andExpect(status().isConflict())
+                .andDo(print())
+                .andReturn();
 
         //then
         assertThat(result.getResponse().getContentAsString().isEmpty());
         verify(airportService).save(airport);
-    }
-
-
-    private static String asJsonString(final Object obj) {
-        try {
-            return new ObjectMapper().writeValueAsString(obj);
-        } catch (Exception e){
-            throw new RuntimeException(e);
-        }
     }
 
 }

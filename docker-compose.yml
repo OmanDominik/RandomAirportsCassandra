@@ -6,6 +6,8 @@ services:
       - "8080:8080"
     environment:
       - CASSANDRA_CONTACT=cassandra
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
     restart: always
     depends_on:
       - cassandra
@@ -22,9 +24,12 @@ services:
     links:
       - generating-service
   cassandra:
-#create keyspace!!!
-#CREATE KEYSPACE airports with replication={'class':'NetworkTopologyStrategy', 'replication_factor':3};
     image: cassandra
     container_name: cassandra
     ports:
       - "9042:9042"
+  redis:
+    image: redis
+    container_name: redis
+    ports:
+      - "6379:6379"

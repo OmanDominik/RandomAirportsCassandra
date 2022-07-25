@@ -18,7 +18,7 @@ import java.util.*;
 @Table("airports")
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Airport implements Serializable{
+public class Airport implements Serializable {
 
     public static HashMap<String, Field> fieldsMap;
     public static HashMap<String, Field> geoFieldsMap;
@@ -61,7 +61,7 @@ public class Airport implements Serializable{
     private boolean coreCountry;
     private int distance;
 
-    public static Airport getRandomInstance(){
+    public static Airport getRandomInstance() {
         Random random = new Random();
         GeoPosition geo_position;
 
@@ -87,11 +87,11 @@ public class Airport implements Serializable{
     }
 
     private static int getRandomInt(int min, int max) {
-        return (int) ((Math.random() * (max - min)) + min);
+        return (int) (Math.random() * (max - min) + min);
     }
 
     private static float getRandomFloat(float min, float max) {
-        return (float) ((Math.random() * (max - min)) + min);
+        return (float) (Math.random() * (max - min) + min);
     }
 
 }

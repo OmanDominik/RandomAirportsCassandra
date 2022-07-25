@@ -1,8 +1,10 @@
 package com.omanski.recruitment.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.apache.commons.lang3.RandomStringUtils;
 
 import java.lang.reflect.Field;
@@ -54,7 +56,7 @@ public class Airport {
     private boolean coreCountry;
     private int distance;
 
-    public static Airport getRandomInstance(){
+    public static Airport getRandomInstance() {
         Random random = new Random();
         GeoPosition geo_position;
 
@@ -80,11 +82,11 @@ public class Airport {
     }
 
     private static int getRandomInt(int min, int max) {
-        return (int) ((Math.random() * (max - min)) + min);
+        return (int) (Math.random() * (max - min) + min);
     }
 
     private static float getRandomFloat(float min, float max) {
-        return (float) ((Math.random() * (max - min)) + min);
+        return (float) (Math.random() * (max - min) + min);
     }
 
 }

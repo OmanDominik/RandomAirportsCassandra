@@ -19,14 +19,13 @@ import java.util.List;
 @Service
 public class DataService {
 
+    Logger log = LoggerFactory.getLogger(DataService.class);
     @Autowired
     private RestTemplate restTemplate;
     @Value("${generating.url}")
     private String url;
 
-    Logger log = LoggerFactory.getLogger(DataService.class);
-
-    public String buildGeneratingUri(int size){
+    public String buildGeneratingUri(int size) {
         return url + "generate/json/" + size;
     }
 
@@ -70,7 +69,7 @@ public class DataService {
             for (String param : params) {
                 if (Airport.fieldsMap.containsKey(param)) {
                     line.add(String.valueOf(Airport.fieldsMap.get(param).get(airport)));
-                } else if(Airport.geoFieldsMap.containsKey(param)){
+                } else if (Airport.geoFieldsMap.containsKey(param)) {
                     line.add(String.valueOf(Airport.geoFieldsMap.get(param).get(airport.getGeo_position())));
                 }
             }
@@ -84,16 +83,16 @@ public class DataService {
 
         Airport airport = this.generateJsons(1).get(0);
 
-        for (String operation: params) {
+        for (String operation : params) {
             Double result;
 
-            for (String parameterName: Airport.fieldsMap.keySet()) {
-                if(operation.contains(parameterName)){
+            for (String parameterName : Airport.fieldsMap.keySet()) {
+                if (operation.contains(parameterName)) {
                     operation = operation.replace(parameterName, String.valueOf(Airport.fieldsMap.get(parameterName).get(airport)));
                 }
             }
-            for (String parameterName: Airport.geoFieldsMap.keySet()) {
-                if(operation.contains(parameterName)){
+            for (String parameterName : Airport.geoFieldsMap.keySet()) {
+                if (operation.contains(parameterName)) {
                     operation = operation.replace(parameterName, String.valueOf(Airport.geoFieldsMap.get(parameterName).get(airport.getGeo_position())));
                 }
             }
@@ -103,7 +102,7 @@ public class DataService {
                 result = parser.parseExpression(operation).getValue(Double.class);
 
                 results.add(String.valueOf(result));
-            }catch (SpelEvaluationException | SpelParseException see){
+            } catch (SpelEvaluationException | SpelParseException see) {
                 results.add("Illegal operation called: " + operation);
             }
 

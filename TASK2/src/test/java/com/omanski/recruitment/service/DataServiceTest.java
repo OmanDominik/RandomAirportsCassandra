@@ -44,11 +44,11 @@ class DataServiceTest {
         int sizeOfListToGenerate = 2;
         Airport[] airportsList = {
                 new Airport("uTUclIFUdn", 4563496, 106, "LeufsTo", "yvjPMgmdYKSiEJUTKFSr",
-                        "EZP", "AwOFMFUW","nIkaLW",
+                        "EZP", "AwOFMFUW", "nIkaLW",
                         new GeoPosition(-11.26171f, -71.221405f),
                         723086, false, "EB", false, 6988),
                 new Airport("kscRyPiwpi", 47254818, 7852, "QyYTWOK", "xRywzQQoLnRFZurRVxQz",
-                        "ARN", "GsPlTNoE","HVJbNx",
+                        "ARN", "GsPlTNoE", "HVJbNx",
                         new GeoPosition(-64.0f, -71.0f),
                         276887, false, "WN", true, 17)
         };
@@ -77,11 +77,11 @@ class DataServiceTest {
         int sizeOfListToGenerate = 2;
         Airport[] airportsList = {
                 new Airport("uTUclIFUdn", 4563496, 106, "LeufsTo", "yvjPMgmdYKSiEJUTKFSr",
-                        "EZP", "AwOFMFUW","nIkaLW",
+                        "EZP", "AwOFMFUW", "nIkaLW",
                         new GeoPosition(-11.26171f, -71.221405f),
                         723086, false, "EB", false, 6988),
                 new Airport("kscRyPiwpi", 47254818, 7852, "QyYTWOK", "xRywzQQoLnRFZurRVxQz",
-                        "ARN", "GsPlTNoE","HVJbNx",
+                        "ARN", "GsPlTNoE", "HVJbNx",
                         new GeoPosition(-64.0f, -71.0f),
                         276887, false, "WN", true, 17)
         };
@@ -91,7 +91,7 @@ class DataServiceTest {
                 .when(dataService).generateJsons(sizeOfListToGenerate);
 
         //when
-            //list with _type, _id, name, type, latitude, longitude
+        //list with _type, _id, name, type, latitude, longitude
         List<String> returnedList = dataService.getBasicData(sizeOfListToGenerate);
 
         //then
@@ -106,15 +106,15 @@ class DataServiceTest {
         int sizeOfListToGenerate = 3;
         Airport[] airportsList = {
                 new Airport("uTUclIFUdn", 4563496, 106, "LeufsTo", "yvjPMgmdYKSiEJUTKFSr",
-                        "EZP", "AwOFMFUW","nIkaLW",
+                        "EZP", "AwOFMFUW", "nIkaLW",
                         new GeoPosition(-11.26171f, -71.221405f),
                         723086, false, "EB", false, 6988),
                 new Airport("kscRyPiwpi", 47254818, 7852, "QyYTWOK", "xRywzQQoLnRFZurRVxQz",
-                        "ARN", "GsPlTNoE","HVJbNx",
+                        "ARN", "GsPlTNoE", "HVJbNx",
                         new GeoPosition(-64.0f, -71.0f),
                         276887, false, "WN", true, 17),
                 new Airport("OSYBUckTNi", 12636970, 8802, "aQMfmKu", "xUTkERZoGvOAQdvqoWhD",
-                        "BWW", "sDqBOnfo","oDdvEN",
+                        "BWW", "sDqBOnfo", "oDdvEN",
                         new GeoPosition(-19.52464f, -84.685905f),
                         468830, false, "UX", false, 2614)
         };
@@ -137,7 +137,7 @@ class DataServiceTest {
         int sizeOfListToGenerate = 1;
         Airport[] airportsList = {
                 new Airport("uTUclIFUdn", 15, 106, "LeufsTo", "yvjPMgmdYKSiEJUTKFSr",
-                        "EZP", "AwOFMFUW","nIkaLW",
+                        "EZP", "AwOFMFUW", "nIkaLW",
                         new GeoPosition(-11.0f, -71.2f),
                         468, false, "UX", false, 2614)
         };
@@ -156,5 +156,5 @@ class DataServiceTest {
         assertThat(calculatedOperations.get(2)).contains("Illegal");
         assertThat(calculatedOperations.get(3)).isEqualTo("121.0");
     }
-    
+
 }

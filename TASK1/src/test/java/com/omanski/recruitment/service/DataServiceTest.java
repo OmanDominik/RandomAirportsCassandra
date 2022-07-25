@@ -33,18 +33,14 @@ class DataServiceTest {
         //given
         int sizeOfListToGenerate = 2;
         Airport sampleAirport = new Airport("uTUclIFUdn", 15, 106, "LeufsTo", "yvjPMgmdYKSiEJUTKFSr",
-                "EZP", "AwOFMFUW", "nIkaLW",
-                new GeoPosition(-11.0f, -71.2f),
+                "EZP", "AwOFMFUW", "nIkaLW", new GeoPosition(-11.0f, -71.2f),
                 468, false, "UX", false, 2614);
 
-        Mockito.when(airportService.save(any(Airport.class)))
-                .thenReturn(sampleAirport);
+        Mockito.when(airportService.save(any(Airport.class))).thenReturn(sampleAirport);
 
         try (MockedStatic<Airport> mockedStatic = Mockito.mockStatic(Airport.class)) {
 
-            mockedStatic
-                    .when(Airport::getRandomInstance)
-                    .thenReturn(sampleAirport);
+            mockedStatic.when(Airport::getRandomInstance).thenReturn(sampleAirport);
 
             //when
             List<Airport> generatedList = dataService.generateJsons(sizeOfListToGenerate);

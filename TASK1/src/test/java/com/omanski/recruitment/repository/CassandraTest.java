@@ -22,10 +22,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 class CassandraTest {
 
-    private static final String KEYSPACE_NAME = "test";
-
     @Container
-    public static final CassandraContainer cassandra = (CassandraContainer) new CassandraContainer("cassandra:3.11.2").withExposedPorts(9042);
+    public static final CassandraContainer cassandra = (CassandraContainer) new CassandraContainer("cassandra").withExposedPorts(9042);
+    private static final String KEYSPACE_NAME = "airports";
 
 
     @BeforeAll
@@ -53,7 +52,7 @@ class CassandraTest {
     }
 
     @Nested
-    class AirportsRepositoryTest{
+    class AirportsRepositoryTest {
 
         @Autowired
         private AirportsRepository airportsRepository;
@@ -61,9 +60,7 @@ class CassandraTest {
         @Test
         void shouldAddAirport() {
             //given
-            Airport airport = new Airport("uTUclIFUdn", 4563496, 106, "LeufsTo", "yvjPMgmdYKSiEJUTKFSr",
-                    "EZP", "AwOFMFUW", "nIkaLW",
-                    new GeoPosition(-11.26171f, -71.221405f),
+            Airport airport = new Airport("uTUclIFUdn", 4563496, 106, "LeufsTo", "yvjPMgmdYKSiEJUTKFSr", "EZP", "AwOFMFUW", "nIkaLW", new GeoPosition(-11.26171f, -71.221405f),
                     723086, false, "EB", false, 6988);
 
 

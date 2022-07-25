@@ -10,6 +10,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,7 +21,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@Tag(name="Airports generator")
+@Tag(name = "Airports generator")
 public class DataController {
 
     final
@@ -36,16 +38,22 @@ public class DataController {
                                     mediaType = "application/json",
                                     array = @ArraySchema(schema = @Schema(implementation = Airport.class)))
                     ),
+                    @ApiResponse(description = "One of generated airports already exists", responseCode = "409", content = @Content),
                     @ApiResponse(description = "Internal error", responseCode = "500", content = @Content)
             }
     )
     @GetMapping("/generate/json/{size}")
-    public @ResponseBody List<Airport> generateList(
+    public @ResponseBody ResponseEntity<List<Airport>> generateList(
             @PathVariable("size")
-            @Parameter(description="number of airports to generate")
+            @Parameter(description = "number of airports to generate")
             int size
-    ){
-        return dataService.generateJsons(size);
+    ) {
+        try {
+            return new ResponseEntity<>(dataService.generateJsons(size), HttpStatus.OK);
+        } catch (IllegalArgumentException exception) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+
     }
 
 }

@@ -18,7 +18,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@Tag(name="Airports data handler")
+@Tag(name = "Airports data handler")
 public class DataController {
 
     final
@@ -42,16 +42,16 @@ public class DataController {
     @GetMapping("/basicData/{size}")
     public List<String> getBasicData(
             @PathVariable("size")
-            @Parameter(description="number of airports to get data from")
+            @Parameter(description = "number of airports to get data from")
             int size
-    ){
-        return  dataService.getBasicData(size);
+    ) {
+        return dataService.getBasicData(size);
     }
 
     @Operation(
             summary = "Returns list of given size containing specified data of randomly generated airports",
             description = "Returns the properties given in the parameters of the generated airports." +
-            "For example: '_id,latitude,longitude’",
+                    "For example: '_id,latitude,longitude’",
             responses = {
                     @ApiResponse(
                             description = "Success",
@@ -72,7 +72,7 @@ public class DataController {
             @Parameter(description = "properties of the generated airports to be returned (E.g. '_id,latitude,longitude’)")
             List<String> params
     ) throws IllegalAccessException {
-        return  dataService.getSpecifiedData(size, params);
+        return dataService.getSpecifiedData(size, params);
     }
 
     @Operation(
@@ -96,7 +96,7 @@ public class DataController {
             @Parameter(description = "operations to calculate (E.g. ‘latitude*longitude,T(Math).sqrt(location_id)')")
             List<String> operations
     ) throws IllegalAccessException {
-        return  dataService.calculateGivenOperations(operations);
+        return dataService.calculateGivenOperations(operations);
     }
 
 }

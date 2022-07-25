@@ -11,7 +11,11 @@ spring:
       keyspace-name: ${CASSANDRA_KEYSPACE:airports}
       contact-points: ${CASSANDRA_CONTACT:localhost}
       port: ${CASSANDRA_PORT:9042}
-      schema-action: ${CASSANDRA_SCHEMA_ACTION:create_if_not_exists}
+      schema-action: ${CASSANDRA_SCHEMA_ACTION:recreate}
       username: ${CASSANDRA_USER:cassandra}
       password: ${CASSANDRA_PASSWORD:pass}
       local-datacenter: ${CASSANDRA_DC:datacenter1}
+  redis:
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+cassandraConfig: production

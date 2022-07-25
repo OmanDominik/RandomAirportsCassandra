@@ -9,6 +9,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,7 +20,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@Tag(name="Airports controller")
+@Tag(name = "Airports controller")
 public class AirportController {
 
     final
@@ -39,9 +41,10 @@ public class AirportController {
             }
     )
     @GetMapping("/airports")
-    public List<Airport> getAirports(){
-        return airportService.getAirports();
+    public ResponseEntity<List<Airport>> getAirports() {
+        return new ResponseEntity<>(airportService.getAirports(), HttpStatus.OK);
     }
+
 
     @Operation(
             summary = "Adds new airport",
@@ -49,17 +52,21 @@ public class AirportController {
             responses = {
                     @ApiResponse(
                             description = "Success",
-                            responseCode = "200",
+                            responseCode = "201",
                             content = @Content(
                                     mediaType = "application/json",
                                     schema = @Schema(implementation = Airport.class))
                     ),
+                    @ApiResponse(description = "Airport with given id already exists", responseCode = "409", content = @Content),
                     @ApiResponse(description = "Internal error", responseCode = "500", content = @Content)
             }
     )
     @PostMapping("/airports")
-    public Airport addAirport(@RequestBody Airport airport){
-        return airportService.save(airport);
+    public ResponseEntity<Airport> addAirport(@RequestBody Airport airport) {
+        try {
+            return new ResponseEntity<>(airportService.save(airport), HttpStatus.CREATED);
+        } catch (IllegalArgumentException exception) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
     }
-
 }

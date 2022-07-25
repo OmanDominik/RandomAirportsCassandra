@@ -1,0 +1,4 @@
+#Key and value types
+#Fri Jul 22 15:02:40 CEST 2022
+keyType=java.lang.Integer
+valueType=com.omanski.recruitment.model.Airport

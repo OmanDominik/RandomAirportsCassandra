@@ -1,1 +1,0 @@
-CREATE KEYSPACE airports with replication={'class':'NetworkTopologyStrategy', 'replication_factor':3};

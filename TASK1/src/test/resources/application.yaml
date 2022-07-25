@@ -2,7 +2,8 @@ spring:
   data:
     cassandra:
       keyspace-name: ${CASSANDRA_KEYSPACE_NAME}
-      contact-points: ${CASSANDRA_CONTACT_POINTS}
+      contact-points: ${CASSANDRA_CONTACT_POINTS:localhost}
       port: ${CASSANDRA_PORT}
       local-datacenter: datacenter1
       schema-action: create_if_not_exists
+cassandraConfig: test

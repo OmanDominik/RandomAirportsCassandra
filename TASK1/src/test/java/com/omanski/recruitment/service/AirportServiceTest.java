@@ -3,6 +3,7 @@ package com.omanski.recruitment.service;
 import com.omanski.recruitment.model.Airport;
 import com.omanski.recruitment.model.GeoPosition;
 import com.omanski.recruitment.repository.AirportsRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -67,10 +68,12 @@ class AirportServiceTest {
                 .thenReturn(Optional.of(airport));
 
         //when
-        Airport returnedAirport = airportService.save(airport);
+        IllegalArgumentException thrown = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            airportService.save(airport);
+        });
 
         //then
-        assertThat(returnedAirport).isEqualTo(null);
+        Assertions.assertEquals("Airport with given id already exists", thrown.getMessage());
         verify(airportsRepository, never()).save(airport);
         verify(airportsRepository).findById(airport.get_id());
     }

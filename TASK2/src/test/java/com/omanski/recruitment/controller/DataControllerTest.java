@@ -1,11 +1,8 @@
 package com.omanski.recruitment.controller;
 
-import com.omanski.recruitment.model.Airport;
-import com.omanski.recruitment.model.GeoPosition;
 import com.omanski.recruitment.service.DataService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +32,6 @@ class DataControllerTest {
     @MockBean
     private DataService dataService;
 
-    @InjectMocks
-    private DataController dataController = new DataController(dataService);
-
     @Test
     void shouldReturnBasicData() throws Exception {
         //given
@@ -64,7 +58,7 @@ class DataControllerTest {
         //given
         int sizeOfListToGenerate = 2;
         List<String> specifiedData = Arrays.asList("a,2121,b,d,3,abc", "g,253,i,j,5,def");
-        List<String> params = Arrays.asList("_type", "_id", "name", "fullName", "distance","type");
+        List<String> params = Arrays.asList("_type", "_id", "name", "fullName", "distance", "type");
         Mockito
                 .when(dataService.getSpecifiedData(sizeOfListToGenerate, params))
                 .thenReturn(specifiedData);
@@ -85,17 +79,10 @@ class DataControllerTest {
     @Test
     void calculateOperations() throws Exception {
         //given
-        int sizeOfListToGenerate = 1;
-        List<Airport> airport = Arrays.asList(
-                new Airport("uTUclIFUdn", 15, 106, "name", "yvjPMgmdYKSiEJUTKFSr",
-                        "EZP", "AwOFMFUW","nIkaLW",
-                        new GeoPosition(-11.0f, -71.2f),
-                        64, false, "UX", false, 2614)
-        );
         List<String> params = Arrays.asList("latitude*longitude", "T(Math).sqrt(location_id)", "distance-name", "key-(-_id)");
         Mockito
                 .when(dataService.calculateGivenOperations(params))
-                .thenReturn(Arrays.asList("783.2","8","Illegal operation called: 2614-name","121"));
+                .thenReturn(Arrays.asList("783.2", "8", "Illegal operation called: 2614-name", "121"));
 
         //when
         MvcResult response = mockMvc.perform(get("/mathematicalOperations/" + "?operations=" + String.join(",", params)))

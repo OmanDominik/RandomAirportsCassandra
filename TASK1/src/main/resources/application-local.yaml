@@ -8,6 +8,10 @@ springdoc:
 spring:
   data:
     cassandra:
-      keyspace-name: airports
-      contact-points: 127.0.0.1
-      port: 9042
+      keyspace-name: ${CASSANDRA_KEYSPACE:airports}
+      contact-points: ${CASSANDRA_CONTACT:localhost}
+      port: ${CASSANDRA_PORT:9042}
+      schema-action: ${CASSANDRA_SCHEMA_ACTION:recreate}
+      username: ${CASSANDRA_USER:cassandra}
+      password: ${CASSANDRA_PASSWORD:pass}
+      local-datacenter: ${CASSANDRA_DC:datacenter1}
