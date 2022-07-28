@@ -18,4 +18,6 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 9090 
-          args: ["--generating.url=http://generating-cluster-ip-service:8080/"]
+          env:
+            - name: "KAFKA_SERVER"
+              value: "kafka:9092"

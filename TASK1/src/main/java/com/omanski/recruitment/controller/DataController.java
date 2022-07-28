@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +23,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @Tag(name = "Airports generator")
+@Slf4j
 public class DataController {
 
     final
@@ -51,6 +53,7 @@ public class DataController {
         try {
             return new ResponseEntity<>(dataService.generateJsons(size), HttpStatus.OK);
         } catch (IllegalArgumentException exception) {
+            log.error("One of generated airports had id that already exists", exception);
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
 

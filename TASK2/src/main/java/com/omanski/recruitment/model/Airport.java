@@ -5,10 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.apache.commons.lang3.RandomStringUtils;
 
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -56,37 +57,5 @@ public class Airport {
     private boolean coreCountry;
     private int distance;
 
-    public static Airport getRandomInstance() {
-        Random random = new Random();
-        GeoPosition geo_position;
-
-        String _type = RandomStringUtils.randomAlphabetic(10);
-        int _id = getRandomInt(0, 100000000);
-        int key = getRandomInt(0, 10000);
-        String name = RandomStringUtils.randomAlphabetic(7);
-        String fullName = RandomStringUtils.randomAlphabetic(20);
-        String iata_airport_code = RandomStringUtils.randomAlphabetic(3).toUpperCase(Locale.ROOT);
-        String type = RandomStringUtils.randomAlphabetic(8);
-        String country = RandomStringUtils.randomAlphabetic(6);
-        float latitude = getRandomFloat(-90, 90);
-        float longitude = getRandomFloat(-180, 180);
-        int location_id = getRandomInt(0, 1000000);
-        boolean inEurope = random.nextBoolean();
-        String countryCode = RandomStringUtils.randomAlphabetic(2).toUpperCase(Locale.ROOT);
-        boolean coreCountry = random.nextBoolean();
-        int distance = getRandomInt(0, 10000);
-
-        geo_position = new GeoPosition(latitude, longitude);
-
-        return new Airport(_type, _id, key, name, fullName, iata_airport_code, type, country, geo_position, location_id, inEurope, countryCode, coreCountry, distance);
-    }
-
-    private static int getRandomInt(int min, int max) {
-        return (int) (Math.random() * (max - min) + min);
-    }
-
-    private static float getRandomFloat(float min, float max) {
-        return (float) (Math.random() * (max - min) + min);
-    }
 
 }

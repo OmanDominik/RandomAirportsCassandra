@@ -1,9 +1,3 @@
-#cassandra
-#helm install cassandra --set dbUser.password=pass,dbUser.user=cassandra,persistence.size=1Gi,replicaCount=3 bitnami/cassandra
-#CREATE KEYSPACE airports with replication={'class':'NetworkTopologyStartegy', 'datacenter1':3}
-#redis
-#helm install redis --set replica.replicaCount=3,auth.enabled=false,replica.persistence.size=1Gi,master.persistence.size=1Gi, bitnami/redis
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -41,3 +35,5 @@ spec:
               value: "datacenter1"
             - name: "REDIS_HOST"
               value: "redis-master"    
+            - name: "KAFKA_SERVER"
+              value: "kafka:9092"

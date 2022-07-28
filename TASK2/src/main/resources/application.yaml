@@ -4,5 +4,10 @@ server:
 springdoc:
   api-docs.path: /api-documentation
   remove-broken-reference-definitions: false
-generating:
-  url: http://localhost:8080/
+spring:
+  kafka:
+    bootstrap-servers: ${KAFKA_SERVER:localhost:9092}
+logging:
+  level:
+    org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
+    org.apache.kafka: OFF

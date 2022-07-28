@@ -1,7 +1,10 @@
 package com.omanski.recruitment.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
@@ -14,7 +17,6 @@ import java.util.*;
 @Data
 @Builder
 @AllArgsConstructor
-@ToString
 @Table("airports")
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)

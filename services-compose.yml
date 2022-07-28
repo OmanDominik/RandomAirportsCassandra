@@ -1,22 +1,5 @@
 version: '3'
 services: 
-  generating-service:
-    image: dominikoman16/task1
-    ports:
-      - "8080:8080"
-    environment:
-      - CASSANDRA_CONTACT=cassandra
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
-      - KAFKA_SERVER=broker:9092
-    restart: always
-  handling-service:
-    image: dominikoman16/task2
-    ports:
-      - "9090:9090"
-    environment:
-      - KAFKA_SERVER=broker
-    restart: always
   cassandra:
     image: cassandra
     container_name: cassandra
@@ -35,7 +18,7 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
   broker:
     image: confluentinc/cp-kafka:7.0.1
-    container_name: broker:9092
+    container_name: broker
     ports:
       # To learn about configuring Kafka for access across networks see
       # https://www.confluent.io/blog/kafka-client-cannot-connect-to-broker-on-aws-on-docker-etc/

@@ -3,8 +3,7 @@ package com.omanski.recruitment.service;
 import com.omanski.recruitment.model.Airport;
 import com.omanski.recruitment.repository.AirportsRepository;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -13,11 +12,10 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AirportService {
 
     final AirportsRepository airportsRepository;
-
-    Logger logger = LoggerFactory.getLogger(AirportService.class);
 
     @CacheEvict(
             value = "airports",
@@ -25,6 +23,7 @@ public class AirportService {
     )
     public Airport save(Airport airport) {
         if (airportsRepository.findById(airport.get_id()).isEmpty()) {
+            log.info("Saving an airport in DB: {}", airport);
             return airportsRepository.save(airport);
         } else
             throw new IllegalArgumentException("Airport with given id already exists");
@@ -34,7 +33,7 @@ public class AirportService {
             value = "airports",
             key = "'airportsList'")
     public List<Airport> getAirports() {
-        logger.info("Retrieving all the airports...");
+        log.info("Retrieving all the airports from DB, recreating cache");
         return airportsRepository.findAll();
     }
 }

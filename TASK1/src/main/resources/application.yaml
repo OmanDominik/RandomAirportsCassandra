@@ -18,4 +18,12 @@ spring:
   redis:
     host: ${REDIS_HOST:localhost}
     port: ${REDIS_PORT:6379}
+  kafka:
+    consumer:
+      auto-offset-reset: earliest
+    bootstrap-servers: ${KAFKA_SERVER:localhost:9092}
 cassandraConfig: production
+logging:
+  level:
+    org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
+    org.apache.kafka: OFF

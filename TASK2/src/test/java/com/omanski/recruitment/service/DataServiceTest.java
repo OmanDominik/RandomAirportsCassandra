@@ -11,15 +11,13 @@ import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.requestreply.ReplyingKafkaTemplate;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -29,50 +27,16 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 @ActiveProfiles("test")
 class DataServiceTest {
 
-    @Value("${generating.url}")
-    private String host;
     @Mock
-    private RestTemplate restTemplate;
+    ReplyingKafkaTemplate<String, String, List<Airport>> generatingAirportsTemplate;
 
     @Spy
     @InjectMocks
-    private DataService dataService = new DataService();
+    private DataService dataService;
+
 
     @Test
-    void shouldReturnRandomList() {
-        //given
-        int sizeOfListToGenerate = 2;
-        Airport[] airportsList = {
-                new Airport("uTUclIFUdn", 4563496, 106, "LeufsTo", "yvjPMgmdYKSiEJUTKFSr",
-                        "EZP", "AwOFMFUW", "nIkaLW",
-                        new GeoPosition(-11.26171f, -71.221405f),
-                        723086, false, "EB", false, 6988),
-                new Airport("kscRyPiwpi", 47254818, 7852, "QyYTWOK", "xRywzQQoLnRFZurRVxQz",
-                        "ARN", "GsPlTNoE", "HVJbNx",
-                        new GeoPosition(-64.0f, -71.0f),
-                        276887, false, "WN", true, 17)
-        };
-
-        String uri = host + "generate/json/" + sizeOfListToGenerate;
-
-        Mockito
-                .doReturn(uri)
-                .when(dataService).buildGeneratingUri(sizeOfListToGenerate);
-
-        Mockito
-                .when(restTemplate.getForEntity(uri, Airport[].class))
-                .thenReturn(new ResponseEntity(airportsList, HttpStatus.OK));
-
-        //when
-        List<Airport> returnedList = dataService.generateJsons(sizeOfListToGenerate);
-
-        //then
-        assertThat(returnedList.size()).isEqualTo(sizeOfListToGenerate);
-        assertThat(List.of(airportsList)).isEqualTo(returnedList);
-    }
-
-    @Test
-    void shouldReturnListOfBasicData() {
+    void shouldReturnListOfBasicData() throws ExecutionException, InterruptedException {
         //given
         int sizeOfListToGenerate = 2;
         Airport[] airportsList = {
@@ -101,7 +65,7 @@ class DataServiceTest {
     }
 
     @Test
-    void shouldReturnListOfSpecifiedData() throws IllegalAccessException {
+    void shouldReturnListOfSpecifiedData() throws IllegalAccessException, ExecutionException, InterruptedException {
         //given
         int sizeOfListToGenerate = 3;
         Airport[] airportsList = {
@@ -132,7 +96,7 @@ class DataServiceTest {
     }
 
     @Test
-    void shouldCalculateOperations() throws IllegalAccessException {
+    void shouldCalculateOperations() throws IllegalAccessException, ExecutionException, InterruptedException {
         //given
         int sizeOfListToGenerate = 1;
         Airport[] airportsList = {

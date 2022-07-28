@@ -1,47 +1,55 @@
 package com.omanski.recruitment.service;
 
 import com.omanski.recruitment.model.Airport;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.SpelEvaluationException;
 import org.springframework.expression.spel.SpelParseException;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
-import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.core.ProducerFactory;
+import org.springframework.kafka.requestreply.ReplyingKafkaTemplate;
+import org.springframework.kafka.requestreply.RequestReplyTypedMessageFuture;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
+@Slf4j
 @Service
+@RequiredArgsConstructor
 public class DataService {
 
-    Logger log = LoggerFactory.getLogger(DataService.class);
-    @Autowired
-    private RestTemplate restTemplate;
-    @Value("${generating.url}")
-    private String url;
+    final
+    ReplyingKafkaTemplate<String, String, List<Airport>> generatingAirportsTemplate;
 
-    public String buildGeneratingUri(int size) {
-        return url + "generate/json/" + size;
-    }
+    final
+    ProducerFactory<String, String> producerFactory;
 
-    public List<Airport> generateJsons(int size) {
 
-        String uri = buildGeneratingUri(size);
-        log.info("Fetching: " + uri);
-        ResponseEntity<Airport[]> response = restTemplate.getForEntity(uri, Airport[].class);
+    public List<Airport> generateJsons(int size) throws ExecutionException, InterruptedException {
 
-        Airport[] generatedList = response.getBody();
+        List<Airport> airportList;
 
-        return List.of(generatedList);
+        log.info("Requesting {} airports from generating service through kafka", size);
+        RequestReplyTypedMessageFuture<String, String, List<Airport>> future2 =
+                generatingAirportsTemplate.sendAndReceive(MessageBuilder
+                                .withPayload(size)
+                                .build(),
+                        new ParameterizedTypeReference<>() {
+                        });
+
+        airportList = future2.get().getPayload();
+
+        return airportList;
     }
 
     //_type, _id, name, type, latitude, longitude
-    public List<String> getBasicData(int size) {
+    public List<String> getBasicData(int size) throws ExecutionException, InterruptedException {
         List<Airport> airportsList = this.generateJsons(size);
 
         List<String> result = new ArrayList<>();
@@ -60,7 +68,8 @@ public class DataService {
         return result;
     }
 
-    public List<String> getSpecifiedData(int size, List<String> params) throws IllegalAccessException {
+    @SneakyThrows
+    public List<String> getSpecifiedData(int size, List<String> params) throws ExecutionException, InterruptedException {
         List<Airport> airportsList = this.generateJsons(size);
         List<String> result = new ArrayList<>();
 
@@ -78,7 +87,8 @@ public class DataService {
         return result;
     }
 
-    public List<String> calculateGivenOperations(List<String> params) throws IllegalAccessException {
+    @SneakyThrows
+    public List<String> calculateGivenOperations(List<String> params) throws ExecutionException, InterruptedException {
         List<String> results = new ArrayList<>();
 
         Airport airport = this.generateJsons(1).get(0);
