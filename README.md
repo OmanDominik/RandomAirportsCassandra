@@ -4,5 +4,5 @@
 
 ## in this directory
 
-##and create keyspace airports in cassandra container
+
 
