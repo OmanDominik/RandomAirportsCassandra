@@ -24,3 +24,10 @@ spec:
                 name: generating-cluster-ip-service
                 port:
                   number: 8080
+          - pathType: Prefix
+            path: /prometheus/?(.*)
+            backend:
+              service:
+                name: prometheus-server
+                port:
+                  number: 80          

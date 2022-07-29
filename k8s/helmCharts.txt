@@ -6,14 +6,17 @@ minikube addons enable storage-provisioner
 minikube addons enable default-storageclass
 minikube addons enable ingress
 
-cassandra
-helm install cassandra --set dbUser.password=pass,dbUser.user=cassandra,persistence.size=1Gi,replicaCount=3 bitnami/cassandra
+minikube addons disable storage-provisioner
+minikube addons disable default-storageclass
+
+nie dziala cassandra
+helm install cassandra --set dbUser.password=pass,dbUser.user=admin,persistence.size=1Gi,replicaCount=3,metrics.enabled=true,volumePermissions.enabled=true bitnami/cassandra
 
 redis
-helm install redis --set replica.replicaCount=3,auth.enabled=false,replica.persistence.size=1Gi,master.persistence.size=1Gi, bitnami/redis
+helm install redis --set replica.replicaCount=3,auth.enabled=false,replica.persistence.size=1Gi,master.persistence.size=1Gi,metrics.enabled=true bitnami/redis
 
 kafka
-helm install kafka --set numPartitions=6,provisioning.numPartitions=6,replicaCount=2 bitnami/kafka
+helm install kafka --set numPartitions=6,provisioning.numPartitions=6,replicaCount=2,metrics.jmx.enabled=true bitnami/kafka
 
 elasticsearch
 helm install elasticsearch --version 7.17 --set volumeClaimTemplate.resources.requests.storage=2Gi,antiAffinity=soft elastic/elasticsearch
@@ -21,3 +24,11 @@ kubectl port-forward service/elasticsearch-master 9200
 helm install kibana --version 7.17 elastic/kibana
 kubectl port-forward deployment/kibana-kibana 5601
 helm install fluentd fluent/fluentd
+
+prometheus
+helm install prometheus prometheus-community/prometheus
+kubectl port-forward service/prometheus-server 8088:80
+
+helm install prometheus prometheus-community/kube-prometheus-stack
+kubectl port-forward service/prometheus-operated 9090
+kubectl port-forward service/prometheus-grafana 8088:80
